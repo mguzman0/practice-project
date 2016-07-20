@@ -1,25 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument("-n", type=int, default=1)
-parser.add_argument("-save", help="Path to save images")
-
-args = parser.parse_args()
-
 y = []
 with open('lj.xyz', 'r') as f:
+#want to take 'n' number of lines and skip the first two lines in the
+#begining of 'n' line
     for num, line in enumerate(f): 
         if line[1] == '0' or line[0] == "A":
             continue
         else:
             nline = map(np.float, line.split()) #converts into float
             y.append(nline)
-data = np.split(np.array(y),1001) 
+data = np.split(np.array(y),1001) # second parameter is tf
 L = 35
-n = str(args.n)
-fname = n + ".png"
+fname = str(L) + ".png"
+#print data
 #exit()
 rsqt = [] #difference in position from one particle to the next
 msd = [0]
@@ -40,6 +34,5 @@ tau = np.arange(1001)
 slope, intercept = np.polyfit(tau,msd,1)
 print  slope/4.0
 plt.plot(tau,msd)
-plt.savefig(args.save + "/" + fname)
-plt.clf
+plt.savefig(fname)
 

@@ -12,11 +12,6 @@ ENERGY_DIR=$(pwd)/energy
 TEMP_DIR=$(pwd)/temp
 DIFFUSION_DIR=$(pwd)/diffusions
 
-if [ ! -e $DIFFUSION_DIR ]; then
-    mkdir $DIFFUSION_DIR
-else
-    rm $DIFFUSION_DIR/coefficients.txt
-fi
 # ===========================
 # TEMP
 # ===========================
@@ -25,13 +20,19 @@ if [ $1 == "TEMP" ]; then
     if [ ! -e $ENERGY_DIR ]; then
         mkdir $ENERGY_DIR
     elif [ -e $ENERGY_DIR/energy_temp.txt ]; then
-        rm $ENERGY_DIR/energy_temp.txt
+        rm $ENERGY_DIR/*
     fi
 
     if [ ! -e $TEMP_DIR ]; then 
         mkdir $TEMP_DIR
     elif [ -e $TEMP_DIR/temp_temp.txt ]; then 
-        rm $TEMP_DIR/temp_temp.txt
+        rm $TEMP_DIR/*
+    fi
+
+    if [ ! -e $DIFFUSION_DIR ]; then
+        mkdir $DIFFUSION_DIR
+    elif [ -e $DIFFUSION_DIR/coefficients_temp.txt ]; then 
+        rm $DIFFUSION_DIR/*
     fi
 
  
@@ -45,7 +46,7 @@ if [ $1 == "TEMP" ]; then
         echo "checking temperature..."
         python emd.py -temp -n $i -save $TEMP_DIR >> $TEMP_DIR/temp_temp.txt
         echo "calculating diffusion..."
-        python analysis.py >> $DIFFUSION_DIR/coefficients.txt
+        python analysis.py -n $i -save $DIFFUSION_DIR >> $DIFFUSION_DIR/coefficients_temp.txt
     done
 fi
 

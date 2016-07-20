@@ -7,7 +7,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-temp", action="store_true", help="use -temp to analyze temp data")
-parser.add_argument("-n", type=int, default=1)
+parser.add_argument("-n", type=str, default=1)
 parser.add_argument("-save", help="Path to save images")
 
 args = parser.parse_args()
@@ -38,4 +38,4 @@ plt.xlabel('Step')
 plt.ylabel(y_axis)
 plt.axis([0, len(data), ystart, ystop])
 plt.savefig(args.save + "/" + fname)
-plt.clf
+plt.clf()

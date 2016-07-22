@@ -89,7 +89,7 @@ if [ $1 == "EPSILON" ]; then
     mapfile -t dt < timestep_ep.txt
     for ((i=0; i<${#E[@]}; i++))
     do
-        lammps -var ep ${E[i]} -var temp 4.7 < ljsim.txt
+        lammps -var ep ${E[i]} -var dt ${dt[i]} -var temp 4.7 < ljsim.txt
         #echo "temp: ${TEMP[i]}"
         echo "checking total energy..."
         python emd.py -n $i -save $ENERGY_DIR >> $ENERGY_DIR/energy_ep.txt

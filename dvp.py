@@ -24,9 +24,7 @@ else:
     y = np.loadtxt('coefficients_ep.txt') 
 
 #Plot
-    
-m, b = np.polyfit(x, y, 1)
-plot(x, y, 'yo', x, m*x+b, '--k')
+plt.plot(x, y,'yo')
 plt.xlabel(x_axis)
 plt.ylabel('Diffusion Coefficient')
 plt.show()

@@ -6,8 +6,7 @@ if [ -z ${1+x} ]; then
 fi
 
 T=(4 5 6 7 8 9 10 20 30 40 50 55 60 100 200)
-E=(1 2 3 4 5 6 7 8 9 10 11) 
-
+E=(0.35 0.4 0.45 0.5 0.55 0.6 0.7 0.9 1.1 1.4 2 3 4 5 6 7 8 9 10 11 12) 
 ENERGY_DIR=$(pwd)/energy
 TEMP_DIR=$(pwd)/temp
 DIFFUSION_DIR=$(pwd)/diffusions

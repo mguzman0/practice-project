@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
@@ -19,7 +21,7 @@ with open('lj.xyz', 'r') as f:
             nline = map(np.float, line.split()) #converts into float
             y.append(nline)
 data = np.split(np.array(y),1001) # second parameter is tf
-L = 35
+L = 350
 n = args.n
 fname = n + ".png"
 #print data

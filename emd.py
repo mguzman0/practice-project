@@ -1,6 +1,8 @@
 #Calculates average total energy and plots it
 #Used for debugging to find optimal time step
 
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import argparse
@@ -29,8 +31,8 @@ std = np.std(data)
 #print "mean: {} std: {}".format(avg, std)
 print avg, std
 
-ystart = avg - 50.0
-ystop = avg + 50.0
+ystart = avg - 25.0
+ystop = avg + 25.0
 n = str(args.n)
 fname = "derp" + n + ".png"
 plt.plot(data)

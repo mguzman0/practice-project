@@ -18,14 +18,16 @@ if args.temp:
     x = x.ravel()
     x_axis = 'Temperature'
     y = np.loadtxt('coefficients_temp.txt')
+    fname = "diff_temp" + ".png"
 else:
     x = np.loadtxt('epsilon.txt')
-    x_axis = 'Epsilon'
+    x_axis = 'Epsilon (kcal/mol)'
     y = np.loadtxt('coefficients_ep.txt') 
-
+    fname = "diff_ep" + ".png"
 #Plot
 plt.plot(x, y,'yo')
 plt.xlabel(x_axis)
-plt.ylabel('Diffusion Coefficient')
+plt.ylabel('Diffusion Coefficient ($Angstroms^2/fs')
+plt.savefig(fname)
 plt.show()
 plt.clf

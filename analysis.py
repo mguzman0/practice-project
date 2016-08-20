@@ -10,8 +10,10 @@ parser.add_argument("-save", help="Path to save images")
 
 args = parser.parse_args()
 
+n = args.n
 y = []
-with open('lj.xyz', 'r') as f:
+fil = args.save + "/" + "lj" + n + ".xyz"
+with open(fil, 'r') as f:
 #want to take 'n' number of lines and skip the first two lines in the
 #begining of 'n' line
     for num, line in enumerate(f): 
@@ -22,7 +24,6 @@ with open('lj.xyz', 'r') as f:
             y.append(nline)
 data = np.split(np.array(y),1001) # second parameter is tf
 L = 350
-n = args.n
 fname = n + ".png"
 #print data
 #exit()

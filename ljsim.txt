@@ -4,9 +4,9 @@ units real
 dimension 2
 boundary p p p
 atom_style atomic
-atom_modify id yes 
+#atom_modify id yes 
 
-#variable temp equal 4.7
+variable temp equal 4.7
 
 #Create the lattice on which initial atoms will be placed
 lattice sq 3.5
@@ -28,7 +28,7 @@ neigh_modify delay 0 every 1
 timestep 1
 
 #Equilibration and Thermalization
-velocity all create ${temp} 12345 dist gaussian
+velocity all create ${temp} ${seed} dist gaussian
 fix NVT all nvt temp ${temp} ${temp} 100
 dump equil all xyz 10 lj_equail.xyz
 run 10000

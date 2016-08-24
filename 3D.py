@@ -10,8 +10,7 @@ args = parser.parse_args()
 
 logging.basicConfig(level=logging.DEBUG)
 
-
-rho = .5
+rho = .25
 n   = 5
 L   = n * np.sqrt(np.pi) * .5 / np.sqrt(rho)
 xf  = (1.0 - 1/n) * L
@@ -30,18 +29,18 @@ msd_t = []
 T = []
 
 for t in range(tf * n * n):
-    """if t % (n*n) == 0:
+    if t % (n*n) == 0:
         if args.vmd:
-            print "{}".format(n*n)
+            print "{}".format(n*n*n)
             print "t = {}".format(t)
-            for i in xrange(n):
-                for j in xrange(n):
-                    print "C {}  {}  0.0".format(r_ir[i + n*j, 0], r_ir[i + n*j, 1])
+            for i in xrange(n*n*n):
+                print "1 {} {} {}".format(r_ir[i,0], r_ir[i,1], r_ir[i,2])
+           
         else:
             for i in xrange(n):
                 for j in xrange(n):
-                    print "{}  {}  0.0".format(r_ir[i + n*j, 0], r_ir[i + n*j, 1])"""
-    disp = rand.uniform(-.5, .5, 3)
+                    print "{}  {}  0.0".format(r_ir[i + n*j, 0], r_ir[i + n*j, 1])
+    disp = rand.uniform(-1.5, 1.5, 3)
     i = rand.randint(n*n*n)
     trial = r_ir[i,:] + disp
     trial[trial > L] -= L

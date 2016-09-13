@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import numpy as np
 import argparse
 import matplotlib.pyplot as plt
@@ -33,6 +35,7 @@ for frame in data:
         dr[dr < L] += L
         sqdr = np.sum(np.square(dr), axis=1)
         dis = np.sqrt(sqdr)
+	sqdr[sqdr > L/2.]
         # Histogramming displacements
         bins = np.linspace(1,5,101)
         N_R, b = np.histogram(dis[dis != 0], bins=bins) 
@@ -40,5 +43,6 @@ for frame in data:
         size = (b[1:] - b[:-1])/2.
         ctr = (b[1:] + b[:-1])
         stuff = N_R/ (4 * np.pi *np.square(ctr) * size * density)
-        plt.plot(ctr, stuff)
-        plt.show()
+
+plt.plot(ctr, stuff)
+plt.savefig("g(r).png")

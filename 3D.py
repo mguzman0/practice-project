@@ -37,9 +37,8 @@ for t in range(tf * n * n):
                 print "1 {} {} {}".format(r_ir[i,0], r_ir[i,1], r_ir[i,2])
            
         else:
-            for i in xrange(n):
-                for j in xrange(n):
-                    print "{}  {}  0.0".format(r_ir[i + n*j, 0], r_ir[i + n*j, 1])
+            for i in xrange(n*n*n):
+                print "{}  {}  {}".format(r_ir[i,0], r_ir[i,1], r_ir[i,2])
     disp = rand.uniform(-1.5, 1.5, 3)
     i = rand.randint(n*n*n)
     trial = r_ir[i,:] + disp

@@ -5,19 +5,24 @@ boundary p p p
 atom_style sphere
 
 #Create the lattice on which initial atoms will be placed
-lattice sc 3.5
+lattice sc 8
 region simbox block 0 10 0 10 0 10
 create_box 1 simbox
 
 #Create the atoms (on the lattice) 
 create_atoms 1 box
 set group all diameter 5.6
-set group all density 0.2807903517
+set group all density 
+#0.2807903517
+
+variable temp equal 300
+variable ep equal 28
+variable dt equal .8
 
 #Define Interatomic Potential
 pair_style lj/cut 3.3673
 #pair_style lj/cut 16.8365
-pair_coeff * * ${ep}  3.0
+pair_coeff * * ${ep}  2.8
 pair_modify shift yes
  
 neighbor 2 bin

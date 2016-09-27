@@ -1,32 +1,44 @@
 #Initialize Simulation
 #Setting up a periodic system with " " units
-units real
+units lj
+
+variable ep equal "2.76*10^(-22) "
+variable temp equal 1 # T*k/ep k=1
+variable dt equal 1
+variable sigma equal 3.76
+variable cut equal "v_sigma*2^(1/6)"
+#variable m equal "((1.3954*(1*10^-8)^3)*(10*v_spacing)^3)/1000"
+#variable rho equal "v_m/((4/3)*3.14*(1.88*10^-8)^3)"
+variable spacing equal "8*v_sigma"
+
 boundary p p p
-atom_style sphere
+atom_style atomic
 
 #Create the lattice on which initial atoms will be placed
-lattice sc 3.5
+lattice fcc 1
 region simbox block 0 10 0 10 0 10
 create_box 1 simbox
+mass * 0.03994
 
 #Create the atoms (on the lattice) 
 create_atoms 1 box
-set group all diameter 5.6
-set group all density 0.2807903517
+#set group all diameter ${sigma}
+#set group all density ${rho}
 
 #Define Interatomic Potential
-pair_style lj/cut 3.3673
-#pair_style lj/cut 16.8365
-pair_coeff * * ${ep}  3.0
+pair_style lj/cut ${cut}
+pair_coeff * * ${ep}  ${sigma}
 pair_modify shift yes
  
-neighbor 2 bin
-neigh_modify delay 0 every 1
+neighbor 0.3 bin
+#neigh_modify page 10000000 one 10000
 
 #Equilibration and Thermalization
 timestep 1
-velocity all create ${temp} 12345 dist gaussian
+velocity all create ${temp} 1234 dist gaussian
 fix NVT all nvt temp ${temp} ${temp} 100
+#fix NPT all npt temp 265.0 300.0 100.0 iso 1.0 1.0 1000.0
+#thermo_style custom press temp
 dump equil all xyz 10 lj_equail.xyz
 run 10000
 undump equil
@@ -42,25 +54,18 @@ compute pe all pe
 compute ke all ke
 variable etot equal "c_pe + c_ke"
 
-#dump 1 all atom 1 tmp.dump
-#compute RDF all rdf 500
-
 #fix energy all print 10 "${etot}" file energy.txt 
 #fix Tprint all print 10 "$T" file ljtemp.txt
-#fix raddist all ave/time 1 1 1 c_RDF file raddist.txt mode vector
-#fix raddist all ave/time 1 1 1 c_RDF file raddist2.txt mode vector
-dump coord all xyz 10 lj.xyz
+dump coord all xyz 1 lj.xyz
 
 run_style verlet
 
 #thermo 0
-#thermo_style custom temp etotal density
-thermo_style custom density vol
+thermo_style custom density vol press temp
+
 
 timestep ${dt}
-run 10000
+run 1000
 
-
-#rerun tmp.dump first 1 every 1 last 5 dump x y box yes scaled yes
 print "All done !"
 

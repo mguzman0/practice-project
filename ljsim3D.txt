@@ -1,33 +1,22 @@
 #Initialize Simulation
 #Setting up a periodic system with " " units
 units lj
-
-variable ep equal "2.76*10^(-22) "
-variable temp equal 1 # T*k/ep k=1
-variable dt equal 1
-variable sigma equal 3.76
-variable cut equal "v_sigma*2^(1/6)"
-#variable m equal "((1.3954*(1*10^-8)^3)*(10*v_spacing)^3)/1000"
-#variable rho equal "v_m/((4/3)*3.14*(1.88*10^-8)^3)"
-variable spacing equal "8*v_sigma"
-
 boundary p p p
 atom_style atomic
 
+variable ep equal 1
+variable temp equal "85*(1.38e-23)/((1.66e-21)*20)" # kT/ep ep: kcal/mol to J
+variable dt equal .005
+variable sigma equal 1
+variable cut equal "v_sigma*2^(1/6)"
+variable rho equal "840*((3.76e-10)^3)/(6.63e-26)"
+print ${rho}
+
 #Create the lattice on which initial atoms will be placed
-lattice sc 4.27e-3
+lattice fcc ${rho}
 region simbox block 0 10 0 10 0 10
 create_box 1 simbox
-mass * 0.03994
-
-#variables
-#variable temp equal 300
-#variable ep equal 28
-#variable dt equal .8
-#variable sigma equal 3.76
-#variable cut equal "v_sigma*2^(1/6)"
-
-#Create the atoms (on the lattice) 
+mass * 1
 create_atoms 1 box
 
 #Define Interatomic Potential
@@ -38,7 +27,7 @@ pair_modify shift yes
 neighbor 0.3 bin
 
 #Equilibration and Thermalization
-timestep 1
+timestep ${dt}
 velocity all create ${temp} 1234 dist gaussian
 fix NVT all nvt temp ${temp} ${temp} 100
 #thermo_style custom press temp
@@ -64,7 +53,7 @@ dump coord all xyz 1 lj.xyz
 run_style verlet
 
 #thermo 0
-thermo_style custom density vol press temp
+thermo_style custom density vol etotal temp
 
 
 timestep ${dt}

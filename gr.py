@@ -31,8 +31,7 @@ else:
                 nline = map(np.float, line.split())
                 y.append(nline)
     data = np.array(y,  dtype=np.float)
-    L = 40
-    L += 0.0
+    L = 12.598
 # Loading data
 data = np.split(data, frames)
 
@@ -40,7 +39,7 @@ data = np.split(data, frames)
 N = len(data[0])
 density = N/(L**3)
 
-bins = np.linspace(1,20,1001)
+bins = np.linspace(1,6,1001)
 size = (bins[1:] - bins[:-1])
 ctr = (bins[1:] + bins[:-1])/2.
 

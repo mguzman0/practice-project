@@ -28,7 +28,7 @@ with open(fil, 'r') as f:
             nline = map(np.float, line.split()) #converts into float
             y.append(nline)
 data = np.split(np.array(y),1001) # second parameter is tf
-L = 35
+L = 11.408
 #fname = n + ".png"
 #print data
 #exit()
@@ -50,8 +50,14 @@ for n in range(len(data)-1):
 tau = np.arange(1001)
 slope, intercept = np.polyfit(tau,msd,1)
 D = slope/6.0
-D = D * np.square(1e-8) / (1e-15)
-print "diffusion coefficient: {} cm^2/s".format( D)
+
+# Converting units: reduced to real 
+l = 3.405e-10 	# sigma [meters]
+m = 6.63e-26 	# mass/atom [kg]
+ep = 3.32e-20 	# epsilon [J]
+D = D * l/np.sqrt(m/ep)
+
+print "diffusion coefficient: {} m^2/s".format( D)
 plt.plot(tau,msd)
 #plt.savefig(args.save + "/" + fname)
 plt.clf()

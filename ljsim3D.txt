@@ -2,36 +2,36 @@
 #Setting up a periodic system with " " units
 units real
 boundary p p p
-atom_style sphere
+atom_style atomic
 
 #Create the lattice on which initial atoms will be placed
-lattice sc 8
+lattice sc 4
 region simbox block 0 10 0 10 0 10
 create_box 1 simbox
 
+#variables
+#variable temp equal 300
+#variable ep equal 28
+#variable dt equal .8
+#variable sigma equal 3.76
+#variable cut equal "v_sigma*2^(1/6)"
+
 #Create the atoms (on the lattice) 
 create_atoms 1 box
-set group all diameter 5.6
-set group all density 
-#0.2807903517
-
-variable temp equal 300
-variable ep equal 28
-variable dt equal .8
+mass * 39.95
 
 #Define Interatomic Potential
-pair_style lj/cut 3.3673
-#pair_style lj/cut 16.8365
-pair_coeff * * ${ep}  2.8
+pair_style lj/cut ${cut}
+pair_coeff * * ${ep}  ${sigma}
 pair_modify shift yes
  
-neighbor 2 bin
-neigh_modify delay 0 every 1
+#neighbor 2 bin
+#neigh_modify delay 0 every 1
 
 #Equilibration and Thermalization
 timestep 1
 velocity all create ${temp} 12345 dist gaussian
-fix NVT all nvt temp ${temp} ${temp} 100
+fix NVT all nvt temp 86 300 1000
 dump equil all xyz 10 lj_equail.xyz
 run 10000
 undump equil

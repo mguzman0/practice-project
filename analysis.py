@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
@@ -12,7 +12,8 @@ args = parser.parse_args()
 
 n = args.n
 y = []
-fil = args.save + "/" + "lj" + n + ".xyz"
+fil = "lj.xyz"
+#fil = args.save + "/" + "lj" + n + ".xyz"
 with open(fil, 'r') as f:
 #want to take 'n' number of lines and skip the first two lines in the
 #begining of 'n' line
@@ -23,8 +24,8 @@ with open(fil, 'r') as f:
             nline = map(np.float, line.split()) #converts into float
             y.append(nline)
 data = np.split(np.array(y),1001) # second parameter is tf
-L = 350
-fname = n + ".png"
+L = 35
+#fname = n + ".png"
 #print data
 #exit()
 rsqt = [] #difference in position from one particle to the next
@@ -44,8 +45,11 @@ for n in range(len(data)-1):
 
 tau = np.arange(1001)
 slope, intercept = np.polyfit(tau,msd,1)
-print  slope/4.0
+b = slope/4.0
+diff =  b
 plt.plot(tau,msd)
-plt.savefig(args.save + "/" + fname)
-plt.clf()
+#plt.savefig(args.save + "/" + fname)
+#plt.clf()
+plt.show()
+
 

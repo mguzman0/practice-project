@@ -31,7 +31,8 @@ else:
                 nline = map(np.float, line.split())
                 y.append(nline)
     data = np.array(y,  dtype=np.float)
-    L = 70.0
+    L = 40
+    L += 0.0
 # Loading data
 data = np.split(data, frames)
 
@@ -68,4 +69,4 @@ plt.xlim([0, max(ctr)])
 #plt.ylim([0, 5])
 plt.ylabel("g(r)")
 plt.xlabel("r")
-plt.show()
+plt.savefig("rdf.png")

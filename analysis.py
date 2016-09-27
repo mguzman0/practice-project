@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
@@ -28,7 +28,7 @@ with open(fil, 'r') as f:
             nline = map(np.float, line.split()) #converts into float
             y.append(nline)
 data = np.split(np.array(y),1001) # second parameter is tf
-L = 40.0
+L = 35
 #fname = n + ".png"
 #print data
 #exit()
@@ -55,4 +55,4 @@ print "diffusion coefficient: {} cm^2/s".format( D)
 plt.plot(tau,msd)
 #plt.savefig(args.save + "/" + fname)
 plt.clf()
-
+plt.show()

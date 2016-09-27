@@ -1,3 +1,5 @@
+#import matplotlib
+#matplotlib.use('Agg')
 import numpy as np
 import argparse
 import matplotlib.pyplot as plt
@@ -51,9 +53,11 @@ for frame in data:
         dr[dr > L/2.] -= L
         sqdr = np.sum(np.square(dr), axis=1)
         dis = np.sqrt(sqdr)
+
         # Histogramming distances
         N_i, bins = np.histogram(dis[dis != 0.], bins=bins)
         N_ic = N_ic + N_i
+
 # Averaging
 N_ic = N_ic.astype(np.float)
 N_ic = N_ic / (frames*(N))
@@ -65,5 +69,5 @@ plt.xlim([0, max(ctr)])
 #plt.ylim([0, 5])
 plt.ylabel("g(r)")
 plt.xlabel("r")
-plt.savefig("grmd.png")
 #plt.show()
+plt.savefig("rdf.png")

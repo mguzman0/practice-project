@@ -15,15 +15,20 @@ boundary p p p
 atom_style atomic
 
 #Create the lattice on which initial atoms will be placed
-lattice fcc 1
+lattice sc 4.27e-3
 region simbox block 0 10 0 10 0 10
 create_box 1 simbox
 mass * 0.03994
 
+#variables
+#variable temp equal 300
+#variable ep equal 28
+#variable dt equal .8
+#variable sigma equal 3.76
+#variable cut equal "v_sigma*2^(1/6)"
+
 #Create the atoms (on the lattice) 
 create_atoms 1 box
-#set group all diameter ${sigma}
-#set group all density ${rho}
 
 #Define Interatomic Potential
 pair_style lj/cut ${cut}
@@ -31,13 +36,11 @@ pair_coeff * * ${ep}  ${sigma}
 pair_modify shift yes
  
 neighbor 0.3 bin
-#neigh_modify page 10000000 one 10000
 
 #Equilibration and Thermalization
 timestep 1
 velocity all create ${temp} 1234 dist gaussian
 fix NVT all nvt temp ${temp} ${temp} 100
-#fix NPT all npt temp 265.0 300.0 100.0 iso 1.0 1.0 1000.0
 #thermo_style custom press temp
 dump equil all xyz 10 lj_equail.xyz
 run 10000

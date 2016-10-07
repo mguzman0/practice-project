@@ -22,8 +22,7 @@ z0 = np.linspace(0, xf, n, endpoint=False)
 r0 = np.array(np.meshgrid(x0, y0, z0))
 r_ir = np.reshape(r0, ( dim, (n**dim)))
 r_ir = r_ir.T
-print L
-exit()
+
 tf = 10000
 tprint = 10
 nsucess = 0

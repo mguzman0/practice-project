@@ -2,7 +2,7 @@
 #Used for debugging to find optimal time step
 
 import matplotlib
-#matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 import argparse
@@ -41,4 +41,4 @@ plt.ylabel(y_axis)
 plt.axis([0, len(data), ystart, ystop])
 #plt.savefig(args.save + "/" + fname)
 #plt.clf()
-plt.show()
+#plt.show()

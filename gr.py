@@ -15,7 +15,7 @@ if args.mc == True:
     filename = "traj.xyz"
     data = np.loadtxt(filename)
     n = 10
-    rho = 0.5
+    rho = 0.34
     L = n*(.5)*(((4./3.)*(np.pi/rho))**(1./3.))
     name = "mc_rdf.png"
 
@@ -64,8 +64,8 @@ N_ic = N_ic / (frames*(N))
 gr = N_ic / (4 * np.pi *np.square(ctr) * size * density) 
 
 plt.plot(ctr, gr)
-print gr
-print ctr
+for i in gr:
+    print i
 plt.xlim([0, max(ctr)])
 plt.ylabel("g(r)")
 plt.xlabel("r")

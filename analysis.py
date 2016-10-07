@@ -7,28 +7,36 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-mc", action="store_true", help="Analyze monte carlo data")
 parser.add_argument("-n", type=str, default=1)
-parser.add_argument("-save", help="Path to save images")
+parser.add_argument("-f", type=int, help="-f flag for number of frames")
+#parser.add_argument("-save", help="Path to save images")
 
 args = parser.parse_args()
 
 #n = args.n
+frames = args.f
+
 y = []
 #fil = args.save + "/" + "lj" + n + ".xyz"
 if args.mc == True:
-    fil = "new.xyz"
+    fil = "traj.xyz"
+    sigma = 1
+    n = 10
+    rho = 0.35
+    L = n*sigma*.5*((4./3.)*np.pi/rho)**(1./3.)
+    y = np.loadtxt(fil)
 else:
     fil = "lj.xyz"
-with open(fil, 'r') as f:
-#want to take 'n' number of lines and skip the first two lines in the
-#begining of 'n' line
-    for num, line in enumerate(f): 
-        if line[1] == '0' or line[0] == "A":
-            continue
-        else:
-            nline = map(np.float, line.split()) #converts into float
-            y.append(nline)
-data = np.split(np.array(y),1001) # second parameter is tf
-L = 18.1
+    L = 11.4
+    with open(fil, 'r') as f:
+    #want to take 'n' number of lines and skip the first two lines in the
+    #begining of 'n' line
+        for num, line in enumerate(f): 
+            if line[1] == '0' or line[0] == "A":
+                continue
+            else:
+                nline = map(np.float, line.split()) #converts into float
+                y.append(nline)
+data = np.split(np.array(y),frames) # second parameter is tf
 #fname = n + ".png"
 #print data
 #exit()
@@ -47,13 +55,13 @@ for n in range(len(data)-1):
     msd.append(meanrsq)
     rsqt = []
 
-tau = np.arange(1001)
-t = tau*.005
+tau = np.arange(frames)
+t = tau*0.005
 slope, intercept = np.polyfit(t,msd,1)
 D = slope/6.0
 
 # Converting units: reduced to real 
-l = 3.405e-10 	# sigma [meters]
+l = 3.76e-10 	# sigma [meters]
 m = 6.63e-26 	# mass/atom [kg]
 ep = 3.32e-20 	# epsilon [J]
 D = D * l/np.sqrt(m/ep)

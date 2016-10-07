@@ -1,0 +1,61 @@
+#Initialize Simulation
+#Setting up a periodic system with " " units
+units lj
+boundary p p p
+atom_style atomic
+
+variable ep equal 1
+variable temp equal "85*(1.38e-23)/((1.66e-21)*20)" # kT/ep ep: kcal/mol to J
+variable dt equal .005
+variable sigma equal 1
+variable cut equal "v_sigma*2^(1/6)"
+variable rho equal "840*((3.76e-10)^3)/(6.63e-26)"
+print ${rho}
+
+#Create the lattice on which initial atoms will be placed
+lattice sc ${rho}
+region simbox block 0 10 0 10 0 10
+create_box 1 simbox
+mass * 1
+create_atoms 1 box
+
+#Define Interatomic Potential
+pair_style lj/cut ${cut}
+pair_coeff * * ${ep}  ${sigma}
+pair_modify shift yes
+ 
+#Equilibration and Thermalization
+timestep ${dt}
+velocity all create ${temp} 1234 dist gaussian
+fix NVT all nvt temp ${temp} ${temp} 100
+#thermo_style custom press temp
+dump equil all xyz 10 lj_equail.xyz
+run 10000
+undump equil
+reset_timestep 0
+
+#Switch to NVE if desired
+unfix NVT
+fix NVE all nve
+
+compute thermotemp all temp
+variable T equal c_thermotemp
+compute pe all pe 
+compute ke all ke
+variable etot equal "c_pe + c_ke"
+
+#fix energy all print 10 "${etot}" file energy.txt 
+#fix Tprint all print 10 "$T" file ljtemp.txt
+dump coord all xyz 1 lj.xyz
+
+run_style verlet
+
+#thermo 0
+thermo_style custom density vol etotal temp
+
+
+timestep ${dt}
+run 1000
+
+print "All done !"
+

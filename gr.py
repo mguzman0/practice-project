@@ -7,16 +7,22 @@ import matplotlib.pyplot as plt
 parser = argparse.ArgumentParser()
 parser.add_argument("-mc", action="store_true", help="Input is MC trajectories")
 parser.add_argument("-f", type=int, default = 0)
+parser.add_argument("-n", type=int, default = 1)
+
 args = parser.parse_args()
 
 # Setting parameters for MC or MD
 if args.mc == True:
     # Monte Carlo
     filename = "traj.xyz"
-    data = np.loadtxt(filename)
-    n = 10
-    rho = 0.34
-    L = n*(.5)*(((4./3.)*(np.pi/rho))**(1./3.))
+    with open(filename, 'r') as tL:
+        first_line = tL.readline()
+    data = np.loadtxt(filename, skiprows=1)
+    #n = 10
+    #rho = 0.34
+    #L = n*(.5)*(((4./3.)*(np.pi/rho))**(1./3.))
+    L = first_line
+    L = float(L)
     name = "mc_rdf.png"
 
 else:
@@ -64,8 +70,9 @@ N_ic = N_ic / (frames*(N))
 gr = N_ic / (4 * np.pi *np.square(ctr) * size * density) 
 
 plt.plot(ctr, gr)
-for i in gr:
-    print i
+#for i in gr:
+#print i
+
 plt.xlim([0, max(ctr)])
 plt.ylabel("g(r)")
 plt.xlabel("r")

@@ -6,19 +6,20 @@ import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-vmd",action="store_true", help="Turn on VMD mode")
+parser.add_argument("-density", type=float, default=0.6)
 args = parser.parse_args()
 
 logging.basicConfig(level=logging.DEBUG)
 sigma = 1
 dim = 3
-rho = 0.34
+rho = 0.8
 n   = 10
-#L   = (n+3)*sigma
-L = n*(sigma*.5)*((4./3.)*np.pi/rho)**(1./3.)
+L   = n / rho**(1./3)
+print L
 xf  = (1.0 - 1/n) * L
-x0 = np.linspace(0, xf, n, endpoint=False)
-y0 = np.linspace(0, xf, n, endpoint=False)
-z0 = np.linspace(0, xf, n, endpoint=False)
+x0 = np.linspace(0, L, n, endpoint=False)
+y0 = np.linspace(0, L, n, endpoint=False)
+z0 = np.linspace(0, L, n, endpoint=False)
 r0 = np.array(np.meshgrid(x0, y0, z0))
 r_ir = np.reshape(r0, ( dim, (n**dim)))
 r_ir = r_ir.T
@@ -53,6 +54,8 @@ for t in range(tf * (n**dim) + 1):
     rejections = trial_rsq_j[trial_rsq_j < np.square(sigma)]
     if len(rejections) == 0:
         r_ir[i,:] = trial
+        r_ir[r_ir[:,:] > L] -= L
+        r_ir[r_ir[:,:] < L] += L
 
 	nsucess += 1
 

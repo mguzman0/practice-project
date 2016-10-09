@@ -13,10 +13,9 @@ args = parser.parse_args()
 if args.mc == True:
     # Monte Carlo
     filename = "traj.xyz"
-    data = np.loadtxt(filename)
-    n = 10
-    rho = 0.34
-    L = n*(.5)*(((4./3.)*(np.pi/rho))**(1./3.))
+    data = np.loadtxt(filename, skiprows=1)
+    rho = 0.8
+    L = n / rho**(1./3.)
     name = "mc_rdf.png"
 
 else:
@@ -36,6 +35,10 @@ else:
 # Loading data
 frames = args.f
 data = np.split(data, frames)
+idata = []
+
+for i in range(201,1000):
+    idata.append(data[i])
 
 # Number of particles/molecules
 N = len(data[0])

@@ -15,7 +15,7 @@ if args.mc == True:
     filename = "traj.xyz"
     data = np.loadtxt(filename, skiprows=1)
     rho = 0.8
-    L = n / rho**(1./3.)
+    L = 10.7721734502
     name = "mc_rdf.png"
 
 else:
@@ -35,10 +35,6 @@ else:
 # Loading data
 frames = args.f
 data = np.split(data, frames)
-idata = []
-
-for i in range(201,1000):
-    idata.append(data[i])
 
 # Number of particles/molecules
 N = len(data[0])
@@ -72,5 +68,5 @@ for i in gr:
 plt.xlim([0, max(ctr)])
 plt.ylabel("g(r)")
 plt.xlabel("r")
-#plt.show()
-plt.savefig(name)
+plt.show()
+#plt.savefig(name)

@@ -10,7 +10,7 @@ variable dt equal .005
 variable sigma equal 1
 variable cut equal "v_sigma*2^(1/6)"
 variable rho equal "840*((3.76e-10)^3)/(6.63e-26)"
-print ${rho}
+
 
 #Create the lattice on which initial atoms will be placed
 lattice sc ${rho}
@@ -26,7 +26,7 @@ pair_modify shift yes
  
 #Equilibration and Thermalization
 timestep ${dt}
-velocity all create ${temp} 1234 dist gaussian
+velocity all create ${temp} ${seed} dist gaussian
 fix NVT all nvt temp ${temp} ${temp} 100
 #thermo_style custom press temp
 dump equil all xyz 10 lj_equail.xyz

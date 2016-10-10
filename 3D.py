@@ -7,15 +7,18 @@ import matplotlib.pyplot as plt
 parser = argparse.ArgumentParser()
 parser.add_argument("-vmd",action="store_true", help="Turn on VMD mode")
 parser.add_argument("-density", type=float, default=0.6)
+parser.add_argument("-rho", type=int, help="integers keep track of number what each state belongs to respective to rho")
+
 args = parser.parse_args()
 
 logging.basicConfig(level=logging.DEBUG)
 sigma = 1
 dim = 3
-rho = 0.8
+rho = args.density
 n   = 10
 L   = n / rho**(1./3)
-print L
+if args.vmd == False:
+    print L
 xf  = (1.0 - 1/n) * L
 x0 = np.linspace(0, L, n, endpoint=False)
 y0 = np.linspace(0, L, n, endpoint=False)
@@ -30,20 +33,23 @@ nsucess = 0
 newr = []
 msd_t = []
 T = []
+a = 0
 
 for t in range(tf * (n**dim) + 1):
     if t % (tprint * (n**dim)) == 0 and t !=0:
-        if args.vmd:
-            print "{}".format(n**dim)
-            print "t = {}".format(t)
-            for i in xrange(n**dim):
-                print "Ar {} {} {}".format(r_ir[i,0], r_ir[i,1], r_ir[i,2])
+        if a <= 200:
+            if args.vmd:
+                print "{}".format(n**dim)
+                print "t = {}".format(t)
+                for i in xrange(n**dim):
+                    print "Ar {} {} {}".format(r_ir[i,0], r_ir[i,1], r_ir[i,2])
            
-        else:
-            for i in xrange(n**dim):
-                print "{}  {}  {}".format(r_ir[i, 0], r_ir[i, 1], r_ir[i, 2])
-        if t == tf * (n**dim) + 1:
-            continue
+            else:
+                for i in xrange(n**dim):
+                    print "{}  {}  {}".format(r_ir[i, 0], r_ir[i, 1], r_ir[i, 2])
+            if t == tf * (n**dim) + 1:
+                continue
+        a += 1
     disp = rand.uniform(-.6, .6, dim)
     i = rand.randint(n*n*n)
     trial = r_ir[i,:] + disp
